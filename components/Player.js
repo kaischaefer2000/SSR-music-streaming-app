@@ -6,12 +6,10 @@ import { currentTrackIdState } from '../atoms/songAtom';
 import { isPlayingState } from '../atoms/songAtom';
 import useSongInfo from '../hooks/useSongInfo';
 import {
-  HeartIcon,
   VolumeUpIcon as VolumeDownIcon,
 } from '@heroicons/react/outline';
 import {
   RewindIcon,
-  SwitchHorizontalIcon,
   FastForwardIcon,
   PauseIcon,
   PlayIcon,

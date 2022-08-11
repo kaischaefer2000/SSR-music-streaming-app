@@ -1,25 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { shuffle } from 'lodash';
-import { playlistIdState } from '../atoms/playlistAtom';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { playlistState } from '../atoms/playlistAtom';
-import useSpotify from '../hooks/useSpotify';
+import React  from 'react';
 import Songs from '../components/Songs';
 
-function Playlist() {
-  const [playlist, setPlaylist] = useRecoilState(playlistState);
-  const spotifyApi = useSpotify();
-  const playlistId = useRecoilValue(playlistIdState);
-
-  // get playlist data
-  useEffect(() => {
-    spotifyApi
-      .getPlaylist(playlistId)
-      .then((data) => {
-        setPlaylist(data.body);
-      })
-      .catch((err) => console.log(err));
-  }, [spotifyApi, playlistId]);
+function Playlist({ currentPlaylist }) {
 
   return (
     <React.Fragment>
@@ -28,12 +10,14 @@ function Playlist() {
       >
         <img
           className="h-44 w-44 shadow-2xl"
-          src={playlist?.images[0]?.url}
+          src={currentPlaylist?.images[0]?.url}
           alt="Playlist cover"
         />
         <div>
           <p>PLAYLIST</p>
-          <h1 className="text-2xl md:text-3xl xl:text-5xl">{playlist?.name}</h1>
+          <h1 className="text-2xl md:text-3xl xl:text-5xl">
+            {currentPlaylist?.name}
+          </h1>
         </div>
       </section>
 

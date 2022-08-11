@@ -1,7 +1,7 @@
 import React from 'react'
 
 function Artist({name,  images}) {
-    console.log(name)
+    
   return (
     <div className="h-70 w-50 bg-gray-900 hover:bg-gray-800 p-4 rounded my-4 mx-[1vw]">
       <img

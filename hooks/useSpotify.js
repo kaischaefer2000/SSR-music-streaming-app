@@ -1,4 +1,4 @@
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 import React, { useEffect } from 'react';
 import SpotifyWebApi from "spotify-web-api-node"
 
@@ -8,7 +8,7 @@ const spotifyApi = new SpotifyWebApi ({
 })
 
 function useSpotify() {
-  const { data: session, status } = useSession();
+  const { data: session, status } = getSession();
 
   useEffect(() => {
     if (session) {

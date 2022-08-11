@@ -1,26 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import useSpotify from '../hooks/useSpotify';
+import React from 'react';
 import { useRecoilState } from 'recoil';
 import { playlistIdState } from '../atoms/playlistAtom';
 import { siteState } from '../atoms/siteAtom';
 import { UserGroupIcon } from '@heroicons/react/solid';
 
-function Sidebar() {
-  const spotifyApi = useSpotify();
-  const { data: session, status } = useSession();
-  const [playlists, setPlaylists] = useState([]);
+function Sidebar({playlists}) {
+
   const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
   const [site, setSite] = useRecoilState(siteState);
-
-  // get playlists from spotify api
-  useEffect(() => {
-    if (spotifyApi.getAccessToken()) {
-      spotifyApi.getUserPlaylists().then((data) => {
-        setPlaylists(data.body.items);
-      });
-    }
-  }, [session, spotifyApi]);
 
   return (
     <div className="h-screen overflow-y-scroll border-r border-gray-900 p-5 pb-36 text-sm text-gray-500 scrollbar-hide sm:w-[12rem] md:inline-flex lg:w-[15rem] lg:text-sm">

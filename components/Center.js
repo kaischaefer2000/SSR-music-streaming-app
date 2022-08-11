@@ -6,7 +6,7 @@ import { signOut } from 'next-auth/react';
 import { useRecoilValue } from 'recoil';
 import { siteState } from '../atoms/siteAtom';
 
-function Center() {
+function Center({ artists, currentPlaylist }) {
   const { data: session } = useSession();
   const site = useRecoilValue(siteState);
 
@@ -28,7 +28,11 @@ function Center() {
         </div>
       </header>
 
-      {site === 'artists' ? <Artists /> : <Playlist />}
+      {site === 'artists' ? (
+        <Artists artists={artists} />
+      ) : (
+        <Playlist currentPlaylist={currentPlaylist} />
+      )}
     </div>
   );
 }
