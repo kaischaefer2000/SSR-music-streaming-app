@@ -1,4 +1,4 @@
-## Spotify clone
+## Spotify clone SSR
 This application is deeply connected to the spotify web API. Its styling is similar to the original spotify web-player. The clone can be seen as some kind of remote control for spotify. You can play songs from different playlists, controle the volume, skip songs or look at your favourite artists. 
 
 ------------
