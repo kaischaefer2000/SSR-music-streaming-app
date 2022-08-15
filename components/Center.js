@@ -5,6 +5,7 @@ import Artists from '../components/Artists';
 import { signOut } from 'next-auth/react';
 import { useRecoilValue } from 'recoil';
 import { siteState } from '../atoms/siteAtom';
+import Image from 'next/image';
 
 function Center({ artists, currentPlaylist }) {
   const { data: session } = useSession();
@@ -15,7 +16,9 @@ function Center({ artists, currentPlaylist }) {
     <div className="h-screen w-full overflow-y-scroll scrollbar-hide">
       <header className="absolute top-5 right-8">
         <div className="flex items-center space-x-3 rounded-full bg-black p-1 pr-3 text-white opacity-90">
-          <img
+          <Image
+            width="40px"
+            height="40px"
             className="h-10 w-10 rounded-full"
             src={session?.user.image}
             alt=""

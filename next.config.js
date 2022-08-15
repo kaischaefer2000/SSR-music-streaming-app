@@ -4,6 +4,9 @@ module.exports = {
   react: {
     useSuspense: false,
   },
+  images: {
+    domains: ['i.scdn.co', 'thisis-images.scdn.co'],
+  },
 };
 
 const intercept = require('intercept-stdout');

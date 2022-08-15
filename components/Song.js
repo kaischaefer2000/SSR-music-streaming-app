@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import { isPlayingState, currentTrackIdState } from '../atoms/songAtom';
 import SpotifyWebApi from 'spotify-web-api-node';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 function Song({ order, track }) {
   const { data: session } = useSession();
@@ -36,11 +37,15 @@ function Song({ order, track }) {
     >
       <div className="flex items-center space-x-4">
         <p>{order + 1}</p>
-        <img
-          className="h-10 w-10"
-          src={track.track.album.images[0].url}
-          alt=""
-        />
+        <div>
+          <Image
+            width="40px"
+            height="40px"
+            className="h-10 w-10"
+            src={track.track.album.images[0].url}
+            alt=""
+          />
+        </div>
         <div>
           <p className="w-36 truncate text-white lg:w-64">{track.track.name}</p>
           <p className="w-40">{track.track.artists[0].name}</p>

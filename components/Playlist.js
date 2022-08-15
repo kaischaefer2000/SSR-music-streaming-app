@@ -1,5 +1,6 @@
 import React  from 'react';
 import Songs from '../components/Songs';
+import Image from 'next/image';
 
 function Playlist({ currentPlaylist }) {
 
@@ -12,11 +13,15 @@ function Playlist({ currentPlaylist }) {
       <section
         className={`flex h-72 items-end space-x-7 bg-gradient-to-b from-red-500 to-black p-8 text-white `}
       >
-        <img
-          className="h-44 w-44 shadow-2xl"
-          src={currentPlaylistImageUrl}
-          alt="Playlist cover"
-        />
+        {currentPlaylistImageUrl && (
+          <Image
+            width="176px"
+            height="176px"
+            src={currentPlaylistImageUrl}
+            alt="Playlist cover"
+            className="shadow-2xl"
+          />
+        )}
         <div>
           <p>PLAYLIST</p>
           <h1 className="text-2xl md:text-3xl xl:text-5xl">

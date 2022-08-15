@@ -9,6 +9,7 @@ import {
 import { debounce } from 'lodash';
 import SpotifyWebApi from 'spotify-web-api-node';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 function Player({ songInfo }) {
 
@@ -56,11 +57,15 @@ function Player({ songInfo }) {
     <div className="grid h-24 grid-cols-3 bg-gradient-to-b from-black to-gray-900 px-2 text-xs text-white md:px-8 md:text-base">
       {/* Left */}
       <div className="flex items-center space-x-4">
-        <img
-          className="hidden h-10 w-10 md:inline"
-          src={songInfo?.album?.images?.[0]?.url}
-          alt=""
-        />
+        {songInfo?.album?.images?.[0]?.url && (
+          <Image
+            width="40px"
+            height="40px"
+            className="hidden h-10 w-10 md:inline"
+            src={songInfo?.album?.images?.[0]?.url}
+            alt=""
+          />
+        )}
         <div>
           <h3>{songInfo?.name}</h3>
           <p>{songInfo?.artists?.[0]?.name}</p>
