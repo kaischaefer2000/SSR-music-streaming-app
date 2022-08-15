@@ -3,6 +3,10 @@ import Songs from '../components/Songs';
 
 function Playlist({ currentPlaylist }) {
 
+  const currentPlaylistImageUrl =
+    currentPlaylist.images !== undefined ? currentPlaylist?.images[0]?.url : undefined ;
+  const currentPlaylistName = currentPlaylist?.name;
+
   return (
     <React.Fragment>
       <section
@@ -10,19 +14,19 @@ function Playlist({ currentPlaylist }) {
       >
         <img
           className="h-44 w-44 shadow-2xl"
-          src={currentPlaylist?.images[0]?.url}
+          src={currentPlaylistImageUrl}
           alt="Playlist cover"
         />
         <div>
           <p>PLAYLIST</p>
           <h1 className="text-2xl md:text-3xl xl:text-5xl">
-            {currentPlaylist?.name}
+            {currentPlaylistName}
           </h1>
         </div>
       </section>
 
       <div>
-        <Songs />
+        <Songs currentPlaylist={currentPlaylist} />
       </div>
     </React.Fragment>
   );

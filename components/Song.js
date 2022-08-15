@@ -1,13 +1,22 @@
 import React from 'react';
-import useSpotify from '../hooks/useSpotify';
 import { millisToMinutesAndSeconds } from '../lib/time';
 import { useRecoilState } from 'recoil';
 import { isPlayingState, currentTrackIdState } from '../atoms/songAtom';
+import SpotifyWebApi from 'spotify-web-api-node';
+import { useSession } from 'next-auth/react';
 
 function Song({ order, track }) {
-  const spotifyApi = useSpotify();
-  
-  const [currentTrackId, setCurrentTrackId] = useRecoilState(currentTrackIdState);
+  const { data: session } = useSession();
+
+  const spotifyApi = new SpotifyWebApi({
+    clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
+    clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
+  });
+
+  spotifyApi.setAccessToken(session?.user?.accessToken);
+
+  const [currentTrackId, setCurrentTrackId] =
+    useRecoilState(currentTrackIdState);
 
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
 
@@ -22,7 +31,7 @@ function Song({ order, track }) {
 
   return (
     <div
-      className="cursor-pointer grid grid-cols-2 rounded-lg py-4 px-5 text-gray-500 hover:bg-gray-900"
+      className="grid cursor-pointer grid-cols-2 rounded-lg py-4 px-5 text-gray-500 hover:bg-gray-900"
       onClick={() => playSong()}
     >
       <div className="flex items-center space-x-4">

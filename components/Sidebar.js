@@ -3,10 +3,9 @@ import { useRecoilState } from 'recoil';
 import { playlistIdState } from '../atoms/playlistAtom';
 import { siteState } from '../atoms/siteAtom';
 import { UserGroupIcon } from '@heroicons/react/solid';
+import Link from 'next/link';
 
 function Sidebar({playlists}) {
-
-  const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
   const [site, setSite] = useRecoilState(siteState);
 
   return (
@@ -26,12 +25,11 @@ function Sidebar({playlists}) {
           <p
             key={playlist.id}
             onClick={() => {
-              setPlaylistId(playlist.id);
               setSite('playlist');
             }}
             className="cursor-pointer hover:text-white"
           >
-            {playlist.name}
+            <Link href={'/' + playlist.id}>{playlist.name}</Link>
           </p>
         ))}
       </div>

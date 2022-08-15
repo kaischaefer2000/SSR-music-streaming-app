@@ -16,12 +16,3 @@ function MyApp({ Component, pageProps: { session, ...pageProps} }: AppProps) {
 }
 
 export default MyApp
-
-// ignore in-browser next/js recoil warnings 
-const mutedConsole = (console:any) => ({
-  ...console,
-  warn: (...args:any) => args[0].includes('Duplicate atom key')
-    ? null
-    : console.warn(...args)
-})
-global.console = mutedConsole(global.console);

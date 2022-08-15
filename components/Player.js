@@ -1,64 +1,43 @@
-import { useSession } from 'next-auth/react';
 import React, { useEffect } from 'react';
-import useSpotify from '../hooks/useSpotify';
-import { useRecoilState } from 'recoil';
-import { currentTrackIdState } from '../atoms/songAtom';
-import { isPlayingState } from '../atoms/songAtom';
-import useSongInfo from '../hooks/useSongInfo';
-import {
-  VolumeUpIcon as VolumeDownIcon,
-} from '@heroicons/react/outline';
+import { VolumeUpIcon as VolumeDownIcon } from '@heroicons/react/outline';
 import {
   RewindIcon,
   FastForwardIcon,
-  PauseIcon,
   PlayIcon,
   VolumeUpIcon,
 } from '@heroicons/react/solid';
 import { debounce } from 'lodash';
+import SpotifyWebApi from 'spotify-web-api-node';
+import { useSession } from 'next-auth/react';
 
-function Player() {
-  const spotifyApi = useSpotify();
-  const { data: session, status } = useSession();
-  const [currentTrackId, setCurrentTrackId] =
-    useRecoilState(currentTrackIdState);
+function Player({ songInfo }) {
 
-  const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
+  const { data: session } = useSession();
+
+  const spotifyApi = new SpotifyWebApi({
+    clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
+    clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
+  });
+
+  spotifyApi.setAccessToken(session?.user?.accessToken);
 
   const [volume, setVolume] = React.useState(50);
-
-  const songInfo = useSongInfo();
-
-  const fetchCurrentSong = () => {
-    if (!songInfo) {
-      spotifyApi.getMyCurrentPlayingTrack().then((data) => {
-        setCurrentTrackId(data.body?.item?.id);
-
-        spotifyApi.getMyCurrentPlaybackState().then((data) => {
-          setIsPlaying(data.body?.is_playing);
-        });
-      });
-    }
-  };
 
   const handlePlayPause = () => {
     spotifyApi.getMyCurrentPlaybackState().then((data) => {
       if (data.body?.is_playing) {
         spotifyApi.pause();
-        setIsPlaying(false);
       } else {
         spotifyApi.play();
-        setIsPlaying(true);
       }
     });
   };
 
   useEffect(() => {
-    if (spotifyApi.getAccessToken() && !currentTrackId) {
-      fetchCurrentSong();
+    if (spotifyApi.getAccessToken()) {
       setVolume(50);
     }
-  }, [currentTrackId, spotifyApi, session]);
+  }, [spotifyApi, session]);
 
   useEffect(() => {
     if (volume > 0 && volume < 100) {
@@ -70,7 +49,7 @@ function Player() {
     debounce((volume) => {
       spotifyApi.setVolume(volume).catch((err) => {});
     }, 300),
-    []
+    [],
   );
 
   return (
@@ -79,7 +58,7 @@ function Player() {
       <div className="flex items-center space-x-4">
         <img
           className="hidden h-10 w-10 md:inline"
-          src={songInfo?.album.images?.[0]?.url}
+          src={songInfo?.album?.images?.[0]?.url}
           alt=""
         />
         <div>
@@ -94,13 +73,8 @@ function Player() {
           onClick={() => spotifyApi.skipToPrevious()}
           className="button"
         />
-        
 
-        {isPlaying ? (
-          <PauseIcon onClick={handlePlayPause} className="button h-10 w-10" />
-        ) : (
-          <PlayIcon onClick={handlePlayPause} className="button h-10 w-10" />
-        )}
+        <PlayIcon onClick={handlePlayPause} className="button h-10 w-10" />
 
         <FastForwardIcon
           onClick={() => spotifyApi.skipToNext()}
