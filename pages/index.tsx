@@ -63,9 +63,13 @@ const Home: NextPage = ({ artists, playlists, currentPlaylist }) => {
 
 export default Home;
 
-// when a components updates, the whole page gets rerendered on the server
+// When a components updates, the whole page gets rerendered on the server
 export async function getServerSideProps(context: any) {
+  
+  // get session data, to check if the request is authorized
   const session = await getSession(context);
+
+  // initializing spotify API with credentials
   const spotifyApi = new SpotifyWebApi({
     clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
     clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
@@ -80,6 +84,7 @@ export async function getServerSideProps(context: any) {
     spotifyApi.setAccessToken(session?.user?.accessToken);
   }
 
+  // fetch artists data
   const artists = await fetch(
     `https://api.spotify.com/v1/me/following?type=artist`,
     {
@@ -89,6 +94,7 @@ export async function getServerSideProps(context: any) {
     },
   ).then((res) => res.json());
 
+  // get playlist data
   const getPlaylists = async () => {
     if (session) {
       return spotifyApi.getUserPlaylists().then((data: any) => {
@@ -100,6 +106,7 @@ export async function getServerSideProps(context: any) {
   };
   const playlists = await getPlaylists();
 
+  // get data of the currently selected playlist
   const getCurrentPlaylist = async () => {
     if (session) {
       return spotifyApi
