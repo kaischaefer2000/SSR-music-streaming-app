@@ -1,15 +1,11 @@
-import { LogoutIcon} from '@heroicons/react/outline';
+import { LogoutIcon } from '@heroicons/react/outline';
 import { useSession } from 'next-auth/react';
 import Playlist from '../components/Playlist';
-import Artists from '../components/Artists';
 import { signOut } from 'next-auth/react';
-import { useRecoilValue } from 'recoil';
-import { siteState } from '../atoms/siteAtom';
 import Image from 'next/image';
 
-function Center({ artists, currentPlaylist }) {
+function Center({ currentPlaylist }) {
   const { data: session } = useSession();
-  const site = useRecoilValue(siteState);
 
   return (
     // the Center component takes as much space as possible for itself
@@ -30,12 +26,7 @@ function Center({ artists, currentPlaylist }) {
           />
         </div>
       </header>
-
-      {site === 'artists' ? (
-        <Artists artists={artists} />
-      ) : (
-        <Playlist currentPlaylist={currentPlaylist} />
-      )}
+      <Playlist currentPlaylist={currentPlaylist} />
     </div>
   );
 }

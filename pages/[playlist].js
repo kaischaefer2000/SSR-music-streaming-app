@@ -4,10 +4,7 @@ import Center from '../components/Center';
 import { useSession, getSession, signIn } from 'next-auth/react';
 import Player from '../components/Player';
 import SpotifyWebApi from 'spotify-web-api-node';
-import { useRecoilValue } from 'recoil';
-import { playlistIdState } from '../atoms/playlistAtom';
 import { useRouter } from 'next/router';
-import { data } from 'autoprefixer';
 import React, { useEffect } from 'react';
 
 const PlaylistPage = ({ artists, playlists }) => {
