@@ -1,6 +1,6 @@
 import React from 'react';
 import { getProviders, signIn } from 'next-auth/react';
-import logo from '../public/spotifylogo.png';
+import logo from '../public/spotifyLogo.png';
 
 function Login({ providers }) {
   return (
