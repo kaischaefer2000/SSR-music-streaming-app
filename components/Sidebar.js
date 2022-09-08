@@ -20,7 +20,7 @@ function Sidebar({playlists}) {
 
         {playlists.map((playlist) => (
           <p key={playlist.id} className="cursor-pointer hover:text-white">
-            <Link prefetch={false} href={'/' + playlist.id}>
+            <Link href={'/' + playlist.id}>
               {playlist.name}
             </Link>
           </p>
